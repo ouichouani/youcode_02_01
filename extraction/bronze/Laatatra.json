@@ -1,0 +1,93 @@
+{
+    "latitude": 32.625,
+    "longitude": -8.4375,
+    "generationtime_ms": 0.26047229766845703,
+    "utc_offset_seconds": 0,
+    "timezone": "GMT",
+    "timezone_abbreviation": "GMT",
+    "elevation": 183.0,
+    "daily_units": {
+        "time": "iso8601",
+        "temperature_2m_max": "\u00b0C",
+        "temperature_2m_min": "\u00b0C",
+        "precipitation_sum": "mm",
+        "precipitation_probability_max": "%",
+        "wind_speed_10m_max": "km/h",
+        "wind_gusts_10m_max": "km/h",
+        "weather_code": "wmo code"
+    },
+    "daily": {
+        "time": [
+            "2026-09-15",
+            "2026-09-16",
+            "2026-09-17",
+            "2026-09-18",
+            "2026-09-19",
+            "2026-09-20",
+            "2026-09-21"
+        ],
+        "temperature_2m_max": [
+            37.3,
+            30.3,
+            28.6,
+            30.6,
+            34.0,
+            38.7,
+            32.7
+        ],
+        "temperature_2m_min": [
+            21.1,
+            18.4,
+            17.5,
+            17.5,
+            16.5,
+            20.3,
+            19.6
+        ],
+        "precipitation_sum": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ],
+        "precipitation_probability_max": [
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            3
+        ],
+        "wind_speed_10m_max": [
+            26.2,
+            22.7,
+            20.2,
+            22.0,
+            18.0,
+            18.4,
+            17.6
+        ],
+        "wind_gusts_10m_max": [
+            45.7,
+            39.2,
+            35.3,
+            39.2,
+            32.4,
+            36.0,
+            33.5
+        ],
+        "weather_code": [
+            3,
+            2,
+            3,
+            45,
+            45,
+            2,
+            45
+        ]
+    }
+}
