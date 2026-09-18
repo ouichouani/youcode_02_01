@@ -1,14 +1,3 @@
-# extraction/__pycache__
-# extraction/bronze/*
-# extraction/worldcities.csv
-
-# load/postgresql_volume
-# load/__pycache__
-
-# queries/__pycache__
-
-# transformation/__pycache__
-
 
 # Ignore python cache folders
 extraction/__pycache__/

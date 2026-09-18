@@ -47,7 +47,8 @@ def get_top_risk_days():
 def city_number() :
     return execute_query("queries/sql/KPI_number_of_cities.sql")
 
-
+def get_map_data():
+    return execute_query("queries/sql/map_data.sql")
 
 
 # result = get_highest_risk_cities()
