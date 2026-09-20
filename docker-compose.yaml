@@ -8,6 +8,19 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: youcode_02_01
+      POSTGRES_DB: airflow_02_01
     ports: ["5432:5432"]
     volumes:
       - ./load/postgresql_volume:/var/lib/postgresql/data
+  
+  # airflow : 
+  #   image : apache/airflow:3.3.2
+  #   container_name : airflow_02_01
+  #   port : 
+  #    - "8080:8080"
+  #   volumes : 
+  #    - ./airflow/dags:/var/dags
+  #    - ./airflow/logs:/var/logs
+  #    - ./airflow/plugins:/var/plugins
+  #   depends_on : 
+  #    - postgresql
