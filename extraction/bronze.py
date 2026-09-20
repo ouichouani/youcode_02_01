@@ -1,10 +1,13 @@
 
 import pandas as pd
 import requests as rq
+from pathlib import Path
 import json
 import os
 
-worldcities = pd.read_csv("worldcities.csv")
+
+BASE_DIR = Path(__file__).resolve().parent
+worldcities = pd.read_csv(BASE_DIR / "worldcities.csv")
 morocco = worldcities.loc[worldcities["country"] == "Morocco"].copy()
 
 
@@ -67,3 +70,6 @@ def get_all_cities_data():
         file_name = "bronz/" + city_name + ".json"
         store_bronze(file_name , data)
         print(f"Data for {city_name} stored successfully")
+
+def test() :
+    print("hello")

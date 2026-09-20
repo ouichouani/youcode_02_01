@@ -69,7 +69,6 @@ def insert_forecasts(cursor):
     print("Forecasts loaded successfully!")
 
 insert_cities(cursor)
-print(get_cities(cursor))
 insert_forecasts(cursor)
 
 cursor.close()

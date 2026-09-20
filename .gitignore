@@ -9,3 +9,7 @@ transformation/__pycache__/
 extraction/bronze/*
 extraction/worldcities.csv
 load/postgresql_volume/
+
+airflow/dags/__pycache__
+airflow/logs/*
+airflow/plugins/*
