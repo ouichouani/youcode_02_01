@@ -68,7 +68,8 @@ def insert_forecasts(cursor):
     connection.commit()
     print("Forecasts loaded successfully!")
 
-add_city_id(cursor)
+insert_cities(cursor)
+print(get_cities(cursor))
 insert_forecasts(cursor)
 
 cursor.close()

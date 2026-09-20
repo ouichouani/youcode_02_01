@@ -1,6 +1,7 @@
 
 
 services:
+
   postgresql : 
     image : postgres:13-alpine
     container_name: postgresql
@@ -8,19 +9,135 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: youcode_02_01
-      POSTGRES_DB: airflow_02_01
-    ports: ["5432:5432"]
+    ports: 
+     - "5432:5432"
     volumes:
       - ./load/postgresql_volume:/var/lib/postgresql/data
+      - ./load/sql_files/init.sql:/docker-entrypoint-initdb.d/init.sql
+    
+    # explain
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d youcode_02_01"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
   
-  # airflow : 
-  #   image : apache/airflow:3.3.2
-  #   container_name : airflow_02_01
-  #   port : 
-  #    - "8080:8080"
-  #   volumes : 
-  #    - ./airflow/dags:/var/dags
-  #    - ./airflow/logs:/var/logs
-  #    - ./airflow/plugins:/var/plugins
-  #   depends_on : 
-  #    - postgresql
+  # AIRFLOW DATABASE INITIALIZATION
+
+  airflow-init : 
+
+    image : apache/airflow:3.3.2
+    container_name : airflow_02_01
+
+    # explain
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@postgresql:5432/airflow_02_01
+
+    # explain
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    
+    volumes : 
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+    # explain
+    command:
+      - bash
+      - -c
+      - |
+        airflow db migrate
+
+  # AIRFLOW API SERVER
+
+  airflow-apiserver:
+    image: apache/airflow:3.3.2
+    container_name: airflow-apiserver
+
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@postgresql:5432/airflow_02_01
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+    command:
+      - api-server
+
+  # AIRFLOW SCHEDULER
+
+  airflow-scheduler:
+    image: apache/airflow:3.3.2
+    container_name: airflow-scheduler
+
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@postgresql:5432/airflow_02_01
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+    command:
+      - scheduler
+
+  # AIRFLOW DAG PROCESSOR
+
+  airflow-dag-processor:
+    image: apache/airflow:3.3.2
+    container_name: airflow-dag-processor
+
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@postgresql:5432/airflow_02_01
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+    command:
+      - dag-processor
+
+  # AIRFLOW TRIGGERER
+
+  airflow-triggerer:
+    image: apache/airflow:3.3.2
+    container_name: airflow-triggerer
+
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@postgresql:5432/airflow_02_01
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+
+    command:
+      - triggerer
