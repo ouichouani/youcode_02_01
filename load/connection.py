@@ -1,9 +1,16 @@
 import psycopg2
 
+
+
+host = "postgresql"
+
+if __name__ == "__main__":
+    host = "localhost"
+
 def get_connection():
 
     connection = psycopg2.connect(
-        host="localhost",
+        host=host,
         port=5432,
         database="youcode_02_01",
         user="postgres",

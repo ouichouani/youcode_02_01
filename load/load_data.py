@@ -5,6 +5,7 @@ from transformation.gold import gold_data
 connection = get_connection()
 cursor = connection.cursor()
 
+
 def insert_cities(cursor):
     cities = gold_data[
         ["city", "latitude", "longitude"]
@@ -68,7 +69,9 @@ def insert_forecasts(cursor):
     connection.commit()
     print("Forecasts loaded successfully!")
 
+
 insert_cities(cursor)
+add_city_id(cursor)
 insert_forecasts(cursor)
 
 cursor.close()
@@ -76,4 +79,3 @@ connection.close()
 
 
 
-# 

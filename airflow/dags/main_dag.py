@@ -3,7 +3,7 @@ from datetime import datetime
 from airflow.operators.python import PythonOperator
 
 from extraction.bronze import get_all_cities_data
-from load.load_data import insert_cities , insert_forecasts
+from load.load_data import insert_cities , insert_forecasts , add_city_id
 
 
 with DAG(
@@ -23,6 +23,12 @@ with DAG(
     insert_cities_in_db = PythonOperator(
         task_id="insert_cities",
         python_callable=insert_cities,
+    )
+
+    # insert forecasts data in database
+    insert_forecasts_in_db = PythonOperator(
+        task_id="add_city_id",
+        python_callable=add_city_id,
     )
 
     # insert forecasts data in database
